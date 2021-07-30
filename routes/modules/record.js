@@ -42,7 +42,10 @@ router.get('/:id/edit', (req, res) => {
 	return Record.findById(id)
 		.lean()
 		.then(record => {
-			const recordCategory = record.category.toString()
+			let recordCategory
+			if (records.length > 0) {
+				recordCategory = records[0].category._id.toString()
+			}
 
 			const home = compareTargetCategory(categories, '家居物業', recordCategory)
 			const transportation = compareTargetCategory(categories, '交通出行', recordCategory)
