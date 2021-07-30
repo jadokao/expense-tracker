@@ -9,27 +9,7 @@
 5. 刪除任何一筆支出 (一次只能刪除一筆)
 6. 在首頁可以根據支出「**類別**」篩選支出；總金額的計算只會包括被篩選出來的支出總和。
 ## 使用方法（兩種下載法二擇一）
-1. 使用cmd下載：
-    ```
-    git clone git@github.com:jadokao/expense-tracker.git
-    ```
-2. 簡易下載：
-   I. 點選綠色框框的『Code』
-   II. 點選『Download ZIP』
-3. 打開cmd，將路徑切至資料夾
-   1. 安裝套件
-       ```
-    npm install
-    ```
-   2. 安裝種子檔
-    ```
-    npm run seed
-    ```
-   3. 輸入指令來執行
-    ```
-    npm run dev
-    ```
-4. 使用`ctrl + c`或`cmd + c`離開
+
 ## 相關套件與版本
 ##### 檔案管理相關
 * npm：7.7.6
