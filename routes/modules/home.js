@@ -31,11 +31,14 @@ router.get('/:category', (req, res) => {
 		categories.push(...item)
 	})
 
-	Record.find(category)
+	return Record.find(category)
 		.lean()
 		.populate('category')
 		.then(records => {
-			const recordCategory = records[0].category._id.toString()
+			let recordCategory
+			if (records.length > 0) {
+				recordCategory = records[0].category._id.toString()
+			}
 
 			const home = compareTargetCategory(categories, '家居物業', recordCategory)
 			const transportation = compareTargetCategory(categories, '交通出行', recordCategory)
