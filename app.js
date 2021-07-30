@@ -9,7 +9,7 @@ require('./config/mongoose')
 
 const app = express()
 
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 
 // 載入 Record 和 Category model
 const Record = require('./models/Record')
@@ -24,6 +24,6 @@ app.set('view engine', 'hbs')
 app.use(methodOverride('_method'))
 app.use(routes)
 
-app.listen(port, () => {
-	console.log(`App is running on http://localhost:${port}`)
+app.listen(PORT, () => {
+	console.log(`App is running on http://localhost:${PORT}`)
 })
