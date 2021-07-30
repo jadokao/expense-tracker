@@ -53,7 +53,8 @@ router.get('/:category', (req, res) => {
 
 function compareTargetCategory (array, type, target) {
 	let founded = array.find(item => item.category.toString() === type)
-	return founded._id.toString() === target ? true : false
+	founded = founded._id.toString()
+	return founded === target ? true : false
 }
 
 module.exports = router

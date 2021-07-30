@@ -60,7 +60,8 @@ router.get('/:id/edit', (req, res) => {
 
 function compareTargetCategory (array, type, target) {
 	let founded = array.find(item => item.category.toString() === type)
-	return founded._id.toString() === target ? true : false
+	founded = founded._id.toString()
+	return founded === target ? true : false
 }
 
 // 編輯分錄的功能
