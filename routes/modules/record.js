@@ -60,7 +60,9 @@ router.get('/:id/edit', (req, res) => {
 
 function compareTargetCategory (array, type, target) {
 	let founded = array.find(item => item.category.toString() === type)
-	if (founded.length > 0) {
+	if (founded._id === undefined) {
+		return false
+	} else {
 		founded = founded._id.toString()
 	}
 	return founded === target ? true : false
