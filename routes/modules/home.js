@@ -35,7 +35,7 @@ router.get('/:category', (req, res) => {
 		.lean()
 		.populate('category')
 		.then(records => {
-			let recordCategory
+			let recordCategory = ''
 			if (records.length > 0) {
 				recordCategory = records[0].category._id.toString()
 			}

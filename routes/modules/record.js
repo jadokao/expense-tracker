@@ -42,7 +42,7 @@ router.get('/:id/edit', (req, res) => {
 	return Record.findById(id)
 		.lean()
 		.then(record => {
-			let recordCategory
+			let recordCategory = ''
 			if (records.length > 0) {
 				recordCategory = records[0].category._id.toString()
 			}
