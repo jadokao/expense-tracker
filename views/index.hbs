@@ -1,0 +1,59 @@
+{{!-- 類別下拉器 --}}
+<div class="container d-flex justify-content-center mb-3">
+  <form action="/records">
+    <select class="selectpicker"  id="category" name="category">
+      <option selected value="">類別</option>
+      {{#each categories}}
+          {{#if (eq this.category '家居物業')}}
+            <option value="{{this._id}}"  {{#if ../home}}selected{{/if}}>{{this.category}}</option>
+          {{/if}}
+          {{#if (eq this.category '交通出行')}}
+            <option value="{{this._id}}"  {{#if ../transportation}}selected{{/if}}>{{this.category}}</option>
+          {{/if}}
+          {{#if (eq this.category '休閒娛樂')}}
+            <option value="{{this._id}}"  {{#if ../entertainment}}selected{{/if}}>{{this.category}}</option>
+          {{/if}}
+          {{#if (eq this.category '餐飲食品')}}
+            <option value="{{this._id}}"  {{#if ../food}}selected{{/if}}>{{this.category}}</option>
+          {{/if}}
+          {{#if (eq this.category '其他')}}
+            <option value="{{this._id}}"  {{#if ../other}}selected{{/if}}>{{this.category}}</option>
+          {{/if}}
+        {{/each}}
+    </select>
+    <button type="submit" class="btn btn-dark">搜尋</button>
+  </form>
+</div>
+{{!-- 總金額顯示 --}}
+<div class="totalMoney d-flex justify-content-center">
+  <span>總金額</span>
+  <p class="totalAmount">{{total records}}</p>
+</div>
+{{!-- 分錄 --}}
+{{#each records}}
+  <ul class="list-group-flush list-group-horizontal d-flex justify-content-center">
+    <li class="list-group-item">
+      <i class='{{this.category.icon}}'></i>
+    </li>
+    <li class="list-group-item d-flex">
+      <div>
+        <p class="name">{{this.name}}</p>
+        <p class="date">{{this.date}}</p>
+      </div>
+      <p class="amount">{{this.amount}}</p>
+    </li>
+    <li class="list-group-item">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <a href="/records/{{ this._id }}/edit">
+          <button type="button" class="btn btn-primary">修改</button>
+        </a>
+        <form action="./records/{{ this._id }}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-primary">刪除</button>
+        </form>
+      </div>
+    </li>
+  </ul>
+{{/each }}
+<a href="./records/new" class="d-flex justify-content-center">
+  <button type="button" class="btn btn-primary">新增支出</button>
+</a>
