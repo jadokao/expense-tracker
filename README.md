@@ -11,6 +11,9 @@
 ## 下載repo
 （兩種下載法二擇一）
 1. 使用cmd下載
+   ```bash
+   git clone -b main --single-branch git@github.com:jadokao/expense-tracker.git
+   ```
 2. 直接下載：
    1. 點選綠色框框的『Code』
    2. 點選『Download ZIP』

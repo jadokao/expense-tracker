@@ -15,7 +15,6 @@ router.post('/', (req, res) => {
 
 	let recordLength = []
 	Record.find().lean().then(records => {
-		console.log(records.length)
 		recordLength.push(records.length)
 		return Record.create({
 			id: Number(recordLength[0]) + 1,
