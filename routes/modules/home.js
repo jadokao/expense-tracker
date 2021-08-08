@@ -6,15 +6,11 @@ const Category = require('../../models/Category')
 
 // 首頁：顯示分錄
 router.get('/', (req, res) => {
-	let categories = []
-	Category.find().lean().then(item => {
-		categories.push(...item)
-	})
 	Record.find()
 		.lean()
-		.populate('category')
 		.then(records => {
-			res.render('index', { records, categories })
+			console.log(records[0].date.toJSON().substring(0, 10))
+			res.render('index', { records })
 		})
 		.catch(error => console.error(error))
 })

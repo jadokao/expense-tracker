@@ -15,4 +15,7 @@ module.exports = {
 
 		return sum // return total
 	},
+	dateFormate: function (date) {
+		return date.toJSON().substring(0, 10)
+	},
 }
