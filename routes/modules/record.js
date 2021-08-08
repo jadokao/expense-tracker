@@ -34,26 +34,17 @@ router.post('/', (req, res) => {
 
 // 編輯分錄的頁面
 router.get('/:id/edit', (req, res) => {
-	let categories = []
-	Category.find().lean().then(item => {
-		categories.push(...item)
-	})
 	const id = req.params.id
 	return Record.findById(id)
 		.lean()
 		.then(record => {
-			let recordCategory = ''
-			if (records.length > 0) {
-				recordCategory = records[0].category._id.toString()
-			}
+			const home = compareTargetCategory(record, '家居物業')
+			const transportation = compareTargetCategory(record, '交通出行')
+			const entertainment = compareTargetCategory(record, '休閒娛樂')
+			const food = compareTargetCategory(record, '餐飲食品')
+			const other = compareTargetCategory(record, '其他')
 
-			const home = compareTargetCategory(categories, '家居物業', recordCategory)
-			const transportation = compareTargetCategory(categories, '交通出行', recordCategory)
-			const entertainment = compareTargetCategory(categories, '休閒娛樂', recordCategory)
-			const food = compareTargetCategory(categories, '餐飲食品', recordCategory)
-			const other = compareTargetCategory(categories, '其他', recordCategory)
-
-			res.render('edit', { record, categories, home, transportation, entertainment, food, other })
+			res.render('edit', { record, home, transportation, entertainment, food, other })
 		})
 		.catch(error => console.error(error))
 })
@@ -115,9 +106,8 @@ router.get('/:category', (req, res) => {
 		.catch(error => console.error(error))
 })
 
-function compareTargetCategory (array, type, target) {
-	let founded = array.find(item => item.category.toString() === type)
-	return founded._id.toString() === target ? true : false
+function compareTargetCategory (object, type) {
+	return object.category === type ? true : false
 }
 
 module.exports = router
