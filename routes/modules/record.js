@@ -3,7 +3,6 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Record = require('../../models/Record')
-const Category = require('../../models/Category')
 
 // 新增分錄的頁面
 router.get('/new', (req, res) => {
@@ -81,27 +80,16 @@ router.get('/:category', (req, res) => {
 	// 用來篩選分錄的item
 	const category = { category: req.query.category }
 
-	let categories = []
-	Category.find().lean().then(item => {
-		categories.push(...item)
-	})
-
 	return Record.find(category)
 		.lean()
-		.populate('category')
 		.then(records => {
-			let recordCategory = ''
-			if (records.length > 0) {
-				recordCategory = records[0].category._id.toString()
-			}
+			const home = compareTargetCategory(records[0], '家居物業')
+			const transportation = compareTargetCategory(records[0], '交通出行')
+			const entertainment = compareTargetCategory(records[0], '休閒娛樂')
+			const food = compareTargetCategory(records[0], '餐飲食品')
+			const other = compareTargetCategory(records[0], '其他')
 
-			const home = compareTargetCategory(categories, '家居物業', recordCategory)
-			const transportation = compareTargetCategory(categories, '交通出行', recordCategory)
-			const entertainment = compareTargetCategory(categories, '休閒娛樂', recordCategory)
-			const food = compareTargetCategory(categories, '餐飲食品', recordCategory)
-			const other = compareTargetCategory(categories, '其他', recordCategory)
-
-			res.render('index', { records, categories, categoryId, home, transportation, entertainment, food, other })
+			res.render('index', { records, categoryId, home, transportation, entertainment, food, other })
 		})
 		.catch(error => console.error(error))
 })

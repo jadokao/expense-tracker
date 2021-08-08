@@ -3,23 +3,11 @@
   <form action="/records/filter">
     <select class="selectpicker" id="category" name="category">
       <option selected value="">類別</option>
-      {{#each records}}
-        {{#if (eq this.category '家居物業')}}
-          <option value="家居物業" {{#if ../home}}selected{{/if}}>{{this.category}}</option>
-        {{/if}}
-        {{#if (eq this.category '交通出行')}}
-          <option value="交通出行" {{#if ../transportation}}selected{{/if}}>{{this.category}}</option>
-        {{/if}}
-        {{#if (eq this.category '休閒娛樂')}}
-          <option value="休閒娛樂" {{#if ../entertainment}}selected{{/if}}>{{this.category}}</option>
-        {{/if}}
-        {{#if (eq this.category '餐飲食品')}}
-          <option value="餐飲食品" {{#if ../food}}selected{{/if}}>{{this.category}}</option>
-        {{/if}}
-        {{#if (eq this.category '其他')}}
-          <option value="其他" {{#if ../other}}selected{{/if}}>{{this.category}}</option>
-        {{/if}}
-      {{/each}}
+      <option value="家居物業" {{#if home}}selected{{/if}}>家居物業</option>
+      <option value="交通出行" {{#if transportation}}selected{{/if}}>交通出行</option>
+      <option value="休閒娛樂" {{#if entertainment}}selected{{/if}}>休閒娛樂</option>
+      <option value="餐飲食品" {{#if food}}selected{{/if}}>餐飲食品</option>
+      <option value="其他" {{#if other}}selected{{/if}}>其他</option>
     </select>
     <button type="submit" class="btn btn-dark">搜尋</button>
   </form>

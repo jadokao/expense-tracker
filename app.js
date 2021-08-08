@@ -11,9 +11,8 @@ const app = express()
 
 const PORT = process.env.PORT || 3000
 
-// 載入 Record 和 Category model
+// 載入 Record model
 const Record = require('./models/Record')
-const Category = require('./models/Category')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
