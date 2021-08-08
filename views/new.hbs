@@ -16,23 +16,11 @@
       <label for="category">類別*：</label>
       <select class="custom-select" name='category' required>
         <option selected value="">選擇您的支出類別</option>
-        {{#each categories}}
-          {{#if (eq this.category '家居物業')}}
-            <option value="{{this._id}}">{{this.category}}</option>
-          {{/if}}
-          {{#if (eq this.category '交通出行')}}
-            <option value="{{this._id}}">{{this.category}}</option>
-          {{/if}}
-          {{#if (eq this.category '休閒娛樂')}}
-            <option value="{{this._id}}">{{this.category}}</option>
-          {{/if}}
-          {{#if (eq this.category '餐飲食品')}}
-            <option value="{{this._id}}">{{this.category}}</option>
-          {{/if}}
-          {{#if (eq this.category '其他')}}
-            <option value="{{this._id}}">{{this.category}}</option>
-          {{/if}}
-        {{/each}}
+          <option value="家居物業">家居物業</option>
+          <option value="交通出行">交通出行</option>
+          <option value="休閒娛樂">休閒娛樂</option>
+          <option value="餐飲食品">餐飲食品</option>
+          <option value="其他">其他</option>
       </select>
     </div>
     <div class="form-group">

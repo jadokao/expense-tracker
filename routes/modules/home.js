@@ -3,16 +3,12 @@ const router = express.Router()
 
 const Record = require('../../models/Record')
 
-const categories = ['家居物業', '交通出行', '休閒娛樂', '餐飲食品', '其他']
-const icons = ['fas fa-home', 'fas fa-shuttle-van', 'fas fa-grin-beam', 'fas fa-utensils', 'fas fa-pen']
-
 // 首頁：顯示分錄
 router.get('/', (req, res) => {
 	Record.find()
 		.lean()
 		.then(records => {
-			console.log(records[0].date.toJSON().substring(0, 10))
-			res.render('index', { records, categories, icons })
+			res.render('index', { records })
 		})
 		.catch(error => console.error(error))
 })

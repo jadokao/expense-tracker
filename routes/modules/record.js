@@ -7,29 +7,29 @@ const Category = require('../../models/Category')
 
 // 新增分錄的頁面
 router.get('/new', (req, res) => {
-	let categories = []
-	Category.find().lean().then(item => {
-		categories.push(...item)
-	})
-	res.render('new', { categories })
+	res.render('new')
 })
 
 // 新增分錄的功能
 router.post('/', (req, res) => {
 	const { name, date, category, amount } = req.body
-	return Record.findOneAndUpdate(
-		{ _id: mongoose.Types.ObjectId() },
-		{ name, date, category, amount },
-		{
-			new: true,
-			upsert: true,
-			runValidators: true,
-			setDefaultsOnInsert: true,
-			populate: 'category',
-		}
-	)
-		.then(() => res.redirect('/'))
-		.catch(error => console.error(error))
+
+	let recordLength = []
+	Record.find().lean().then(records => {
+		console.log(records.length)
+		recordLength.push(records.length)
+		return Record.create({
+			id: Number(recordLength[0]) + 1,
+			name,
+			date,
+			category,
+			amount,
+		})
+			.then(() => {
+				res.redirect('/')
+			})
+			.catch(error => console.error(error))
+	})
 })
 
 // 編輯分錄的頁面
