@@ -16,17 +16,18 @@
     <div class="form-group d-flex  justify-content-center">
       <label for="category">類別*：</label>
       <select class="custom-select w-50" name='category' required>
-        <option selected value="">選擇您的支出類別</option>        
-          <option value="家居物業" {{#if home}}selected{{/if}}>家居物業</option>
-          <option value="交通出行" {{#if transportation}}selected{{/if}}>交通出行</option>
-          <option value="休閒娛樂" {{#if entertainment}}selected{{/if}}>休閒娛樂</option>
-          <option value="餐飲食品" {{#if food}}selected{{/if}}>餐飲食品</option>
-          <option value="其他" {{#if other}}selected{{/if}}>其他</option>
+        <option selected value="">選擇您的支出類別</option>
+        <option value="家居物業" {{#if (eq record.category '家居物業' )}}selected{{/if}}>家居物業</option>
+        <option value="交通出行" {{#if (eq record.category '交通出行' )}}selected{{/if}}>交通出行</option>
+        <option value="休閒娛樂" {{#if (eq record.category '休閒娛樂' )}}selected{{/if}}>休閒娛樂</option>
+        <option value="餐飲食品" {{#if (eq record.category '餐飲食品' )}}selected{{/if}}>餐飲食品</option>
+        <option value="其他" {{#if (eq record.category '其他' )}}selected{{/if}}>其他</option>
       </select>
     </div>
     <div class="form-group d-flex  justify-content-center">
       <label for="amount">金額*：</label>
-      <input type="number" class="form-control w-50" id="amount" name="amount" required min="0" value="{{ record.amount }}">
+      <input type="number" class="form-control w-50" id="amount" name="amount" required min="0"
+        value="{{ record.amount }}">
     </div>
     <div class=" d-flex  justify-content-center">
       <button type="submit" class="btn btn-outline-primary">修改支出</button>
