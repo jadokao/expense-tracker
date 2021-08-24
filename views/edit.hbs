@@ -1,21 +1,21 @@
-<div class="title d-flex justify-content-center">
-  <p>*為必填欄位</p>
-  <p>請修改你的支出</p>
-</div>
-<div class="container">
+<div class="container w-25">
+  <div class="title d-flex">
+    <p>*必填欄位</p>
+    <p class="mx-auto">請修改你的支出</p>
+  </div>
   <form action="/records/{{ record._id }}?_method=PUT" method="POST">
-    <div class="form-group">
+    <div class="form-group d-flex justify-content-center">
       <label for="name">名稱*：</label>
-      <input type="text" class="form-control" id="name" aria-describedby="emailHelp" name="name" required
+      <input type="text" class="form-control w-50" id="name" aria-describedby="emailHelp" name="name" required
         value="{{ record.name }}">
     </div>
-    <div class="form-group">
-      <label for="date">日期*(月/日/年)：</label>
-      <input type="date" class="form-control" id="date" name='date' required value="{{ dateFormate record.date }}">
+    <div class="form-group d-flex  justify-content-center">
+      <label for="date">日期*：</label>
+      <input type="date" class="form-control w-50" id="date" name='date' required value="{{ dateFormate record.date }}">
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex  justify-content-center">
       <label for="category">類別*：</label>
-      <select class="custom-select" name='category' required>
+      <select class="custom-select w-50" name='category' required>
         <option selected value="">選擇您的支出類別</option>        
           <option value="家居物業" {{#if home}}selected{{/if}}>家居物業</option>
           <option value="交通出行" {{#if transportation}}selected{{/if}}>交通出行</option>
@@ -24,10 +24,12 @@
           <option value="其他" {{#if other}}selected{{/if}}>其他</option>
       </select>
     </div>
-    <div class="form-group">
+    <div class="form-group d-flex  justify-content-center">
       <label for="amount">金額*：</label>
-      <input type="number" class="form-control" id="amount" name="amount" required min="0" value="{{ record.amount }}">
+      <input type="number" class="form-control w-50" id="amount" name="amount" required min="0" value="{{ record.amount }}">
     </div>
-    <button type="submit" class="btn btn-outline-primary">修改支出</button>
+    <div class=" d-flex  justify-content-center">
+      <button type="submit" class="btn btn-outline-primary">修改支出</button>
+    </div>
   </form>
 </div>
