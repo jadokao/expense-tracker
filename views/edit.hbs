@@ -1,19 +1,19 @@
 <div class="container w-25">
-  <div class="title d-flex">
+  <div class="title d-flex mt-5">
     <p>*必填欄位</p>
     <p class="mx-auto">請修改你的支出</p>
   </div>
   <form action="/records/{{ record._id }}?_method=PUT" method="POST">
-    <div class="form-group d-flex justify-content-center">
+    <div class="form-group d-flex justify-content-center align-items-center mt-4">
       <label for="name">名稱*：</label>
       <input type="text" class="form-control w-50" id="name" aria-describedby="emailHelp" name="name" required
         value="{{ record.name }}">
     </div>
-    <div class="form-group d-flex  justify-content-center">
+    <div class="form-group d-flex  justify-content-center align-items-center mt-4">
       <label for="date">日期*：</label>
       <input type="date" class="form-control w-50" id="date" name='date' required value="{{ dateFormate record.date }}">
     </div>
-    <div class="form-group d-flex  justify-content-center">
+    <div class="form-group d-flex  justify-content-center align-items-center mt-4">
       <label for="category">類別*：</label>
       <select class="custom-select w-50" name='category' required>
         <option selected value="">選擇您的支出類別</option>
@@ -24,12 +24,12 @@
         <option value="其他" {{#if (eq record.category '其他' )}}selected{{/if}}>其他</option>
       </select>
     </div>
-    <div class="form-group d-flex  justify-content-center">
+    <div class="form-group d-flex  justify-content-center align-items-center mt-4">
       <label for="amount">金額*：</label>
       <input type="number" class="form-control w-50" id="amount" name="amount" required min="0"
         value="{{ record.amount }}">
     </div>
-    <div class=" d-flex  justify-content-center">
+    <div class=" d-flex  justify-content-center align-items-center mt-4">
       <button type="submit" class="btn btn-outline-primary">修改支出</button>
     </div>
   </form>

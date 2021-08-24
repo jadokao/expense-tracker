@@ -1,19 +1,19 @@
 <div class="container w-25">
-  <div class="title d-flex">
+  <div class="title d-flex justify-content-center align-items-center mt-5">
     <p>*必填欄位</p>
     <p class="mx-auto">請輸入你的支出</p>
   </div>
   <form action="/records" method="POST">
-    <div class="form-group d-flex justify-content-center">
-      <label for="name" class="">名稱*：</label>
+    <div class="form-group d-flex justify-content-center align-items-center mt-4">
+      <label for="name" class="mr-4">名稱*：</label>
       <input type="text" class="form-control w-50" id="name" aria-describedby="emailHelp" name="name" required>
     </div>
-    <div class="form-group d-flex  justify-content-center">
-      <label for="date" class="">日期*：</label>
+    <div class="form-group d-flex  justify-content-center align-items-center mt-4">
+      <label for="date" class="mr-4">日期*：</label>
       <input type="date" class="form-control w-50" id="date" name='date' required>
     </div>
-    <div class="form-group d-flex justify-content-center">
-      <label for="category">類別*：</label>
+    <div class="form-group d-flex justify-content-center align-items-center mt-4">
+      <label for="category" class="mr-4">類別*：</label>
       <select class="custom-select w-50" name='category' required>
         <option selected value="">選擇您的支出類別</option>
           <option value="家居物業">家居物業</option>
@@ -23,11 +23,11 @@
           <option value="其他">其他</option>
       </select>
     </div>
-    <div class="form-group d-flex justify-content-center">
-      <label for="amount">金額*：</label>
+    <div class="form-group d-flex justify-content-center align-items-center mt-4">
+      <label for="amount" class="mr-4">金額*：</label>
       <input type="number" class="form-control w-50" id="amount" name="amount" required min="0">
     </div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-4">
       <button type="submit" class="btn btn-outline-success">新增支出</button>
     </div>
   </form>

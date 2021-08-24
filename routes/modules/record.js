@@ -110,9 +110,37 @@ router.delete('/:id', (req, res) => {
 // 篩選分錄的功能
 router.get('/:category', (req, res) => {
   // 網址上所顯示：選取的分類
-  const categoryId = req.query.category
+  const selection = req.query.category
   // 用來篩選分錄的item
   const category = { category: req.query.category }
+
+  // 選擇：全部，沒做篩選
+  if (selection === '全部' || selection === '類別') {
+    return Record.find()
+      .lean()
+      .then(records => {
+        records.forEach(record => {
+          switch (record.category) {
+            case '家居物業':
+              record['icon'] = CATEGORY.home
+              break
+            case '交通出行':
+              record['icon'] = CATEGORY.transportation
+              break
+            case '休閒娛樂':
+              record['icon'] = CATEGORY.entertainment
+              break
+            case '餐飲食品':
+              record['icon'] = CATEGORY.food
+              break
+            default:
+              record['icon'] = CATEGORY.other
+          }
+        })
+        res.render('index', { records, selection })
+      })
+      .catch(error => console.error(error))
+  }
 
   return Record.find(category)
     .lean()
@@ -136,8 +164,7 @@ router.get('/:category', (req, res) => {
         }
       })
 
-      const firstRecord = records[0]
-      res.render('index', { records, firstRecord })
+      res.render('index', { records, selection })
     })
     .catch(error => console.error(error))
 })

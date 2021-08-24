@@ -2,20 +2,22 @@
 <div class="container d-flex justify-content-center mb-3">
   <form action="/records/filter">
     <select class="selectpicker" id="category" name="category">
-      <option selected value="">類別</option>
-      <option value="家居物業" {{#if (eq firstRecord.category '家居物業' )}}selected{{/if}}>家居物業</option>
-      <option value="交通出行" {{#if (eq firstRecord.category '交通出行' )}}selected{{/if}}>交通出行</option>
-      <option value="休閒娛樂" {{#if (eq firstRecord.category '休閒娛樂' )}}selected{{/if}}>休閒娛樂</option>
-      <option value="餐飲食品" {{#if (eq firstRecord.category '餐飲食品' )}}selected{{/if}}>餐飲食品</option>
-      <option value="其他" {{#if (eq firstRecord.category '其他' )}}selected{{/if}}>其他</option>
+      <option value="類別" selected>類別</option>
+      <option value="全部" {{#if (eq selection '全部' )}}selected{{/if}}>全部</option>
+      <option value="家居物業" {{#if (eq selection '家居物業' )}}selected{{/if}}>家居物業</option>
+      <option value="交通出行" {{#if (eq selection '交通出行' )}}selected{{/if}}>交通出行</option>
+      <option value="休閒娛樂" {{#if (eq selection '休閒娛樂' )}}selected{{/if}}>休閒娛樂</option>
+      <option value="餐飲食品" {{#if (eq selection '餐飲食品' )}}selected{{/if}}>餐飲食品</option>
+      <option value="其他" {{#if (eq selection '其他' )}}selected{{/if}}>其他</option>
     </select>
     <button type="submit" class="btn btn-outline-dark">搜尋</button>
   </form>
 </div>
 {{!-- 總金額顯示 --}}
-<div class="totalMoney d-flex justify-content-center">
-  <span>總金額:</span>
-  <p class="totalAmount text-danger">{{total records}}</p>
+<div class="totalMoney d-flex justify-content-around w-25 mx-auto">
+  <span class="align-self-start">總金額:</span>
+  <p class="totalAmount text-danger" style="font-size: 50px;">{{total records}}</p>
+  <p></p>
 </div>
 {{!-- 分錄 --}}
 {{#each records}}
