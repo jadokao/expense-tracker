@@ -1,0 +1,36 @@
+[{
+    "id": 1,
+    "name": "KFC",
+    "date": "2002.12.09",
+    "amount": 185,
+    "category": "餐飲食品"
+  },
+  {
+    "id": 2,
+    "name": "IKEA",
+    "date": "2002.12.09",
+    "amount": 1000,
+    "category": "家居物業"
+  },
+  {
+    "id": 3,
+    "name": "Bus",
+    "date": "2002.12.09",
+    "amount": 15,
+    "category": "交通出行"
+  },
+  {
+    "id": 4,
+    "name": "Steam",
+    "date": "2002.12.09",
+    "amount": 350,
+    "category": "休閒娛樂"
+  },
+  {
+    "id": 5,
+    "name": "7-11",
+    "date": "2002.12.09",
+    "amount": 200,
+    "category": "其他"
+  }
+]
