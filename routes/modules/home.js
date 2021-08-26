@@ -9,27 +9,31 @@ router.get('/', (req, res) => {
   Record.find()
     .lean()
     .then(records => {
-      records.forEach(record => {
-        switch (record.category) {
-          case '家居物業':
-            record['icon'] = CATEGORY.home
-            break
-          case '交通出行':
-            record['icon'] = CATEGORY.transportation
-            break
-          case '休閒娛樂':
-            record['icon'] = CATEGORY.entertainment
-            break
-          case '餐飲食品':
-            record['icon'] = CATEGORY.food
-            break
-          default:
-            record['icon'] = CATEGORY.other
-        }
-      })
+      getIcon(records)
       res.render('index', { records })
     })
     .catch(error => console.error(error))
 })
+
+function getIcon (array) {
+  array.forEach(item => {
+    switch (item.category) {
+      case '家居物業':
+        item['icon'] = CATEGORY.home
+        break
+      case '交通出行':
+        item['icon'] = CATEGORY.transportation
+        break
+      case '休閒娛樂':
+        item['icon'] = CATEGORY.entertainment
+        break
+      case '餐飲食品':
+        item['icon'] = CATEGORY.food
+        break
+      default:
+        item['icon'] = CATEGORY.other
+    }
+  })
+}
 
 module.exports = router

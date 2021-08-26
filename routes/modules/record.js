@@ -15,40 +15,17 @@ router.post('/', (req, res) => {
   const { name, date, category, amount } = req.body
 
   Record.find().lean().then(records => {
-    let recordIcon = ''
-    records.forEach(record => {
-      switch (record.category) {
-        case '家居物業':
-          recordIcon = CATEGORY.home
-          break
-        case '交通出行':
-          recordIcon = CATEGORY.transportation
-          break
-        case '休閒娛樂':
-          recordIcon = CATEGORY.entertainment
-          break
-        case '餐飲食品':
-          recordIcon = CATEGORY.food
-          break
-        default:
-          recordIcon = CATEGORY.other
-      }
-    })
-
-    let recordLength = []
-    recordLength.push(records.length)
+    // 建立新的分錄
+    let recordLength = records.length
     Record.create({
-      id: Number(recordLength[0]) + 1,
+      id: Number(recordLength),
       name,
       date,
       category,
       amount,
-      icon: recordIcon,
-    })
-      .then(() => {
-        res.redirect('/')
-      })
-      .catch(error => console.error(error))
+    }).catch(error => console.error(error))
+
+    res.redirect('/').catch(error => console.error(error))
   })
 })
 
@@ -58,7 +35,7 @@ router.get('/:id/edit', (req, res) => {
   return Record.findById(id)
     .lean()
     .then(record => {
-      res.render('edit', { record, CATEGORY })
+      res.render('edit', { record })
     })
     .catch(error => console.error(error))
 })
@@ -69,29 +46,10 @@ router.put('/:id', (req, res) => {
   const { name, date, category, amount } = req.body
   return Record.findById(id)
     .then(record => {
-      let recordIcon = ''
-      switch (record.category) {
-        case '家居物業':
-          recordIcon = CATEGORY.home
-          break
-        case '交通出行':
-          recordIcon = CATEGORY.transportation
-          break
-        case '休閒娛樂':
-          recordIcon = CATEGORY.entertainment
-          break
-        case '餐飲食品':
-          recordIcon = CATEGORY.food
-          break
-        default:
-          recordIcon = CATEGORY.other
-      }
-
       record.name = name
       record.date = date
       record.category = category
       record.amount = amount
-      record.icon = recordIcon
       return record.save()
     })
     .then(() => res.redirect(`/`))
@@ -112,61 +70,41 @@ router.get('/:category', (req, res) => {
   // 網址上所顯示：選取的分類
   const selection = req.query.category
   // 用來篩選分錄的item
-  const category = { category: req.query.category }
+  let category = { category: req.query.category }
 
   // 選擇：全部，沒做篩選
   if (selection === '全部' || selection === '類別') {
-    return Record.find()
-      .lean()
-      .then(records => {
-        records.forEach(record => {
-          switch (record.category) {
-            case '家居物業':
-              record['icon'] = CATEGORY.home
-              break
-            case '交通出行':
-              record['icon'] = CATEGORY.transportation
-              break
-            case '休閒娛樂':
-              record['icon'] = CATEGORY.entertainment
-              break
-            case '餐飲食品':
-              record['icon'] = CATEGORY.food
-              break
-            default:
-              record['icon'] = CATEGORY.other
-          }
-        })
-        res.render('index', { records, selection })
-      })
-      .catch(error => console.error(error))
+    category = {}
   }
 
   return Record.find(category)
     .lean()
     .then(records => {
-      records.forEach(record => {
-        switch (record.category) {
-          case '家居物業':
-            record['icon'] = CATEGORY.home
-            break
-          case '交通出行':
-            record['icon'] = CATEGORY.transportation
-            break
-          case '休閒娛樂':
-            record['icon'] = CATEGORY.entertainment
-            break
-          case '餐飲食品':
-            record['icon'] = CATEGORY.food
-            break
-          default:
-            record['icon'] = CATEGORY.other
-        }
-      })
-
+      getIconByArray(records)
       res.render('index', { records, selection })
     })
     .catch(error => console.error(error))
 })
+
+function getIconByArray (array) {
+  array.forEach(item => {
+    switch (item.category) {
+      case '家居物業':
+        item['icon'] = CATEGORY.home
+        break
+      case '交通出行':
+        item['icon'] = CATEGORY.transportation
+        break
+      case '休閒娛樂':
+        item['icon'] = CATEGORY.entertainment
+        break
+      case '餐飲食品':
+        item['icon'] = CATEGORY.food
+        break
+      default:
+        item['icon'] = CATEGORY.other
+    }
+  })
+}
 
 module.exports = router
