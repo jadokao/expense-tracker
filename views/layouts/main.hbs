@@ -17,6 +17,11 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">家庭記帳本</a></li>
+      {{#if isAuthenticated}}
+        <li class="breadcrumb-item"><a href="/users/logout" class="">登出</a></li>
+      {{else}}
+        <li class="breadcrumb-item"><a href="/users/login" class="">登入</a></li>
+      {{/if}}
     </ol>
   </nav>
   {{{ body }}}
