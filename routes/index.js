@@ -9,5 +9,8 @@ router.use('/', home)
 const record = require('./modules/record')
 router.use('/records', record)
 
+const user = require('./modules/users')
+router.use('/users', user)
+
 // 匯出路由器
 module.exports = router
