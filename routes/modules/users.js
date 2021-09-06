@@ -23,6 +23,7 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 
+// 註冊功能
 router.post('/register', (req, res) => {
   const { name, email, password, confirmPassword } = req.body
 
@@ -40,6 +41,12 @@ router.post('/register', (req, res) => {
         .catch(err => console.log(err))
     }
   })
+})
+
+// 登出功能
+router.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/users/login')
 })
 
 module.exports = router
