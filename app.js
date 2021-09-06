@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
@@ -12,7 +15,7 @@ require('./config/mongoose')
 
 const app = express()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 
 // 載入 Record model
 const Record = require('./models/Record')

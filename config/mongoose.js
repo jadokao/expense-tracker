@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
 
 // 設定mongoose連線
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/expense-tracker'
+const MONGODB_URI = process.env.MONGODB_URI
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
 const db = mongoose.connection
