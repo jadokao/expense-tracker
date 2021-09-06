@@ -3,22 +3,46 @@ const router = express.Router()
 const mongoose = require('mongoose')
 
 const Record = require('../../models/Record')
-const CATEGORY = require('../../models/category.js')
+const Category = require('../../models/category.js')
+
+// 取得category id
+let { homeId, transportationId, entertainmentId, foodId, otherId } = ''
 
 // 新增分錄的頁面
-router.get('/new', (req, res) => {
-  res.render('new')
+router.get('/new', async (req, res) => {
+  await Category.find().lean().then(categories => {
+    categories.forEach(item => {
+      switch (item.name) {
+        case '家居物業':
+          homeId = item._id.toString()
+          break
+        case '交通出行':
+          transportationId = item._id.toString()
+          break
+        case '休閒娛樂':
+          entertainmentId = item._id.toString()
+          break
+        case '餐飲食品':
+          foodId = item._id.toString()
+          break
+        default:
+          otherId = item._id.toString()
+      }
+    })
+  })
+
+  res.render('new', { homeId, transportationId, entertainmentId, foodId, otherId })
 })
 
 // 新增分錄的功能
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const userId = req.user._id
-  const { name, date, category, amount, merchant } = req.body
+  let { name, date, category, amount, merchant } = req.body
 
   Record.find().lean().then(records => {
     // 建立新的分錄
     let recordLength = records.length
-    Record.create({
+    return Record.create({
       id: Number(recordLength),
       name,
       date,
@@ -26,20 +50,43 @@ router.post('/', (req, res) => {
       amount,
       merchant,
       userId,
-    }).catch(error => console.error(error))
-
-    res.redirect('/').catch(error => console.error(error))
+    })
+      .then(() => res.redirect('/'))
+      .catch(error => console.log(error))
   })
 })
 
 // 編輯分錄的頁面
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', async (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
+
+  await Category.find().lean().then(categories => {
+    categories.forEach(item => {
+      switch (item.name) {
+        case '家居物業':
+          homeId = item._id.toString()
+          break
+        case '交通出行':
+          transportationId = item._id.toString()
+          break
+        case '休閒娛樂':
+          entertainmentId = item._id.toString()
+          break
+        case '餐飲食品':
+          foodId = item._id.toString()
+          break
+        default:
+          otherId = item._id.toString()
+      }
+    })
+  })
+
   return Record.findOne({ _id, userId })
     .lean()
     .then(record => {
-      res.render('edit', { record })
+      record['category'] = record['category'].toString()
+      res.render('edit', { record, homeId, transportationId, entertainmentId, foodId, otherId })
     })
     .catch(error => console.error(error))
 })
@@ -97,23 +144,35 @@ router.get('/:category', (req, res) => {
     .catch(error => console.error(error))
 })
 
-function getIconByArray (array) {
+function getIcon (
+  array,
+  home,
+  transportation,
+  entertainment,
+  food,
+  other,
+  homeId,
+  transportationId,
+  entertainmentId,
+  foodId,
+  otherId
+) {
   array.forEach(item => {
-    switch (item.category) {
-      case '家居物業':
-        item['icon'] = CATEGORY.home
+    switch (item.category.toString()) {
+      case homeId:
+        item['icon'] = home
         break
-      case '交通出行':
-        item['icon'] = CATEGORY.transportation
+      case transportationId:
+        item['icon'] = transportation
         break
-      case '休閒娛樂':
-        item['icon'] = CATEGORY.entertainment
+      case entertainmentId:
+        item['icon'] = entertainment
         break
-      case '餐飲食品':
-        item['icon'] = CATEGORY.food
+      case foodId:
+        item['icon'] = food
         break
       default:
-        item['icon'] = CATEGORY.other
+        item['icon'] = other
     }
   })
 }
