@@ -3,34 +3,39 @@
     "name": "KFC",
     "date": "2002.12.09",
     "amount": 185,
-    "category": "餐飲食品"
+    "category": "餐飲食品",
+    "merchant": "KFC"
   },
   {
     "id": 2,
     "name": "IKEA",
     "date": "2002.12.09",
     "amount": 1000,
-    "category": "家居物業"
+    "category": "家居物業",
+    "merchant": "IKEA"
   },
   {
     "id": 3,
     "name": "Bus",
     "date": "2002.12.09",
     "amount": 15,
-    "category": "交通出行"
+    "category": "交通出行",
+    "merchant": "Taipei Bus"
   },
   {
     "id": 4,
     "name": "Steam",
     "date": "2002.12.09",
     "amount": 350,
-    "category": "休閒娛樂"
+    "category": "休閒娛樂",
+    "merchant": "Steam"
   },
   {
     "id": 5,
     "name": "7-11",
     "date": "2002.12.09",
     "amount": 200,
-    "category": "其他"
+    "category": "其他",
+    "merchant": "7-11"
   }
 ]

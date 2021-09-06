@@ -29,6 +29,11 @@
       <input type="number" class="form-control w-50" id="amount" name="amount" required min="0"
         value="{{ record.amount }}">
     </div>
+    <div class="form-group d-flex  justify-content-center align-items-center mt-4">
+      <label for="merchant">店家*：</label>
+      <input type="text" class="form-control w-50" id="merchant" name="merchant" required min="0"
+        value="{{ record.merchant }}">
+    </div>
     <div class=" d-flex  justify-content-center align-items-center mt-4">
       <button type="submit" class="btn btn-outline-primary">修改支出</button>
     </div>

@@ -1,9 +1,15 @@
-const CATEGORY = {
-  home: 'fas fa-home',
-  transportation: 'fas fa-shuttle-van',
-  entertainment: 'fas fa-grin-beam',
-  food: 'fas fa-utensils',
-  other: 'fas fa-pen',
-}
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-module.exports = CATEGORY
+const categorySchema = new Schema({
+  category: {
+    type: String,
+    required: true,
+  },
+  icon: {
+    type: String,
+    required: false,
+  },
+})
+
+module.exports = mongoose.model('Category', categorySchema)

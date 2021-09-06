@@ -6,7 +6,9 @@ const CATEGORY = require('../../models/category.js')
 
 // 首頁：顯示分錄
 router.get('/', (req, res) => {
-  Record.find()
+  const userId = req.user._id
+
+  Record.find({ userId })
     .lean()
     .then(records => {
       getIcon(records)
