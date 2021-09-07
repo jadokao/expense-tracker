@@ -36,6 +36,9 @@
   <p></p>
 </div>
 {{!-- 分錄 --}}
+{{#unless records}}
+  <h3 class="d-flex justify-content-center mb-4">你所選擇的月份或類別，沒有紀錄存在</h3>
+{{/unless}}
 {{#each records}}
   <ul class="list-group list-group-horizontal d-flex justify-content-center align-items-center">
     <li class="list-group-item border-0">
