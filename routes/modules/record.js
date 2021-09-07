@@ -127,9 +127,9 @@ router.delete('/:id', (req, res) => {
 router.get('/:selection', async (req, res) => {
   // 網址上所顯示：取得使用者選取的月份與分類
   let category = req.query.category
-  const month = { month: req.query.month }
-  // 取得category icon
+  const month = Number(req.query.month)
 
+  // 取得category icon
   await Category.find().lean().then(categories => {
     categories.forEach(item => {
       switch (item.name) {
@@ -155,85 +155,65 @@ router.get('/:selection', async (req, res) => {
     categories.forEach(item => {
       switch (item.name) {
         case '家居物業':
-          homeId = item._id
+          homeId = item._id.toString()
           break
         case '交通出行':
-          transportationId = item._id
+          transportationId = item._id.toString()
           break
         case '休閒娛樂':
-          entertainmentId = item._id
+          entertainmentId = item._id.toString()
           break
         case '餐飲食品':
-          foodId = item._id
+          foodId = item._id.toString()
           break
         default:
-          otherId = item._id
+          otherId = item._id.toString()
       }
     })
   })
-  convertStringToObjectId(category)
 
   const userId = req.user._id
 
   return Record.find({ category, userId })
     .lean()
     .then(records => {
-      getIconByArray(records, homeIcon, transportationIcon, entertainmentIcon, foodIcon, otherIcon)
-      res.render('index', { records, category, homeId, transportationId, entertainmentId, foodId, otherId })
+      getIconByArray(records)
+
+      const filterRecords = records.filter(record => record.date.getMonth() === month)
+
+      res.render('index', {
+        records: filterRecords,
+        month,
+        category,
+        homeId,
+        transportationId,
+        entertainmentId,
+        foodId,
+        otherId,
+      })
     })
     .catch(error => console.error(error))
 })
 
-function getIconByArray (
-  array,
-  home,
-  transportation,
-  entertainment,
-  food,
-  other,
-  homeId,
-  transportationId,
-  entertainmentId,
-  foodId,
-  otherId
-) {
+function getIconByArray (array) {
   array.forEach(item => {
-    switch (item.category) {
-      case homeId:
-        item['icon'] = home
+    switch (item.category.toString()) {
+      case homeId.toString():
+        item['icon'] = homeIcon
         break
-      case transportationId:
-        item['icon'] = transportation
+      case transportationId.toString():
+        item['icon'] = transportationIcon
         break
-      case entertainmentId:
-        item['icon'] = entertainment
+      case entertainmentId.toString():
+        item['icon'] = entertainmentIcon
         break
-      case foodId:
-        item['icon'] = food
+      case foodId.toString():
+        item['icon'] = foodIcon
         break
       default:
-        item['icon'] = other
+        item['icon'] = otherIcon
     }
   })
-}
-
-function convertStringToObjectId (string) {
-  switch (string) {
-    case homeId.toString():
-      string = homeId
-      break
-    case transportationId.toString():
-      string = transportationId
-      break
-    case entertainmentId.toString():
-      string = entertainmentId
-      break
-    case foodId.toString():
-      string = foodId
-      break
-    default:
-      string = otherId
-  }
 }
 
 module.exports = router

@@ -59,16 +59,16 @@ router.get('/', (req, res) => {
 
       getIcon(
         records,
-        homeIcon,
-        transportationIcon,
-        entertainmentIcon,
-        foodIcon,
-        otherIcon,
         homeId,
         transportationId,
         entertainmentId,
         foodId,
-        otherId
+        otherId,
+        homeIcon,
+        transportationIcon,
+        entertainmentIcon,
+        foodIcon,
+        otherIcon
       )
 
       res.render('index', { records, homeId, transportationId, entertainmentId, foodId, otherId })
@@ -78,33 +78,33 @@ router.get('/', (req, res) => {
 
 function getIcon (
   array,
-  home,
-  transportation,
-  entertainment,
-  food,
-  other,
   homeId,
   transportationId,
   entertainmentId,
   foodId,
-  otherId
+  otherId,
+  homeIcon,
+  transportationIcon,
+  entertainmentIcon,
+  foodIcon,
+  otherIcon
 ) {
   array.forEach(item => {
     switch (item.category.toString()) {
       case homeId:
-        item['icon'] = home
+        item['icon'] = homeIcon
         break
       case transportationId:
-        item['icon'] = transportation
+        item['icon'] = transportationIcon
         break
       case entertainmentId:
-        item['icon'] = entertainment
+        item['icon'] = entertainmentIcon
         break
       case foodId:
-        item['icon'] = food
+        item['icon'] = foodIcon
         break
       default:
-        item['icon'] = other
+        item['icon'] = otherIcon
     }
   })
 }
