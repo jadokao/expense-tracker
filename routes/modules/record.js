@@ -7,6 +7,8 @@ const Category = require('../../models/category.js')
 
 // 取得category id
 let { homeId, transportationId, entertainmentId, foodId, otherId } = ''
+// 取得category icon
+let { homeIcon, transportationIcon, entertainmentIcon, foodIcon, otherIcon } = ''
 
 // 新增分錄的頁面
 router.get('/new', async (req, res) => {
@@ -122,29 +124,67 @@ router.delete('/:id', (req, res) => {
 })
 
 // 篩選分錄的功能
-router.get('/:category', (req, res) => {
-  // 網址上所顯示：選取的分類
-  const selection = req.query.category
-  // 用來篩選分錄的item
-  let category = { category: req.query.category }
+router.get('/:selection', async (req, res) => {
+  // 網址上所顯示：取得使用者選取的月份與分類
+  let category = req.query.category
+  const month = { month: req.query.month }
+  // 取得category icon
 
-  // 選擇：全部，沒做篩選
-  if (selection === '全部' || selection === '類別') {
-    category = {}
-  }
+  await Category.find().lean().then(categories => {
+    categories.forEach(item => {
+      switch (item.name) {
+        case '家居物業':
+          homeIcon = item.icon
+          break
+        case '交通出行':
+          transportationIcon = item.icon
+          break
+        case '休閒娛樂':
+          entertainmentIcon = item.icon
+          break
+        case '餐飲食品':
+          foodIcon = item.icon
+          break
+        default:
+          otherIcon = item.icon
+      }
+    })
+  })
+  // 取得各個category的id
+  await Category.find().lean().then(categories => {
+    categories.forEach(item => {
+      switch (item.name) {
+        case '家居物業':
+          homeId = item._id
+          break
+        case '交通出行':
+          transportationId = item._id
+          break
+        case '休閒娛樂':
+          entertainmentId = item._id
+          break
+        case '餐飲食品':
+          foodId = item._id
+          break
+        default:
+          otherId = item._id
+      }
+    })
+  })
+  convertStringToObjectId(category)
 
   const userId = req.user._id
 
   return Record.find({ category, userId })
     .lean()
     .then(records => {
-      getIconByArray(records)
-      res.render('index', { records, selection })
+      getIconByArray(records, homeIcon, transportationIcon, entertainmentIcon, foodIcon, otherIcon)
+      res.render('index', { records, category, homeId, transportationId, entertainmentId, foodId, otherId })
     })
     .catch(error => console.error(error))
 })
 
-function getIcon (
+function getIconByArray (
   array,
   home,
   transportation,
@@ -158,7 +198,7 @@ function getIcon (
   otherId
 ) {
   array.forEach(item => {
-    switch (item.category.toString()) {
+    switch (item.category) {
       case homeId:
         item['icon'] = home
         break
@@ -175,6 +215,25 @@ function getIcon (
         item['icon'] = other
     }
   })
+}
+
+function convertStringToObjectId (string) {
+  switch (string) {
+    case homeId.toString():
+      string = homeId
+      break
+    case transportationId.toString():
+      string = transportationId
+      break
+    case entertainmentId.toString():
+      string = entertainmentId
+      break
+    case foodId.toString():
+      string = foodId
+      break
+    default:
+      string = otherId
+  }
 }
 
 module.exports = router

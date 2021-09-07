@@ -71,7 +71,7 @@ router.get('/', (req, res) => {
         otherId
       )
 
-      res.render('index', { records })
+      res.render('index', { records, homeId, transportationId, entertainmentId, foodId, otherId })
     })
     .catch(error => console.error(error))
 })
