@@ -17,9 +17,6 @@ const app = express()
 
 const PORT = process.env.PORT
 
-// 載入 Record model
-const Record = require('./models/Record')
-
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // 設定handlebars
@@ -32,7 +29,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 )
 

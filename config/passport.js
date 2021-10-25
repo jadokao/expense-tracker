@@ -32,7 +32,7 @@ module.exports = app => {
       clientID: process.env.FACEBOOK_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
       callbackURL: process.env.FACEBOOK_CALLBACK,
-      profileFields: ['email', 'displayName'],
+      profileFields: ['email', 'displayName']
     },
     (accessToken, refreshToken, profile, done) => {
       const { name, email } = profile._json
@@ -46,7 +46,7 @@ module.exports = app => {
           User.create({
             name,
             email,
-            password: hash,
+            password: hash
           })
             .then(user => done(null, user))
             .catch(err => done(err, false))

@@ -16,7 +16,7 @@ router.post(
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/users/login',
-    failureFlash: true,
+    failureFlash: true
   })
 )
 
@@ -49,7 +49,7 @@ router.post('/register', (req, res) => {
       User.create({
         name,
         email,
-        password: hash,
+        password: hash
       })
         .then(() => res.redirect('/'))
         .catch(err => console.log(err))

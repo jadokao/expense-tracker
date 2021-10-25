@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
       category,
       amount,
       merchant,
-      userId,
+      userId
     })
       .then(() => res.redirect('/'))
       .catch(error => console.log(error))
@@ -189,7 +189,7 @@ router.get('/:selection', async (req, res) => {
         transportationId,
         entertainmentId,
         foodId,
-        otherId,
+        otherId
       })
     })
     .catch(error => console.error(error))

@@ -12,7 +12,7 @@ const records = require('../../records.json')
 const SEED_USER = {
   name: 'root',
   email: 'root@example.com',
-  password: '12345678',
+  password: '12345678'
 }
 
 db.once('open', async () => {
@@ -48,7 +48,7 @@ db.once('open', async () => {
         await User.create({
           name: SEED_USER.name,
           email: SEED_USER.email,
-          password: hash,
+          password: hash
         })
     )
     .then(async user => {
@@ -82,7 +82,7 @@ db.once('open', async () => {
             amount: record.amount,
             category: record.category,
             merchant: record.merchant,
-            userId,
+            userId
           })
         })
       )
