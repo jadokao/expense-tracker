@@ -33,6 +33,9 @@
     ```bash
     npm run seed
     ```
+    註：種子檔所建立的帳號密碼為
+    I. 帳號：root@example.com
+    II. 密碼：1234567
 4. 依據 .env.example 檔的內容，替換環境變數
 5. 執行：
     ```bash
