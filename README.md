@@ -39,6 +39,10 @@
     npm run dev
     ```
 6. 離開：使用```ctrl + c```或```cmd + c```
+## 畫面範例
+![Alt text](login.png)
+![Alt text](register.png)
+![Alt text](records.png)
 ## 相關套件與版本
 ##### 檔案管理相關
 * npm：7.7.6
