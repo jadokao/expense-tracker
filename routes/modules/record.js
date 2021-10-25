@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
 
 const Record = require('../../models/Record')
 const Category = require('../../models/category.js')
@@ -39,11 +38,11 @@ router.get('/new', async (req, res) => {
 // 新增分錄的功能
 router.post('/', async (req, res) => {
   const userId = req.user._id
-  let { name, date, category, amount, merchant } = req.body
+  const { name, date, category, amount, merchant } = req.body
 
   Record.find().lean().then(records => {
     // 建立新的分錄
-    let recordLength = records.length
+    const recordLength = records.length
     return Record.create({
       id: Number(recordLength),
       name,
@@ -108,7 +107,7 @@ router.put('/:id', (req, res) => {
       record.merchant = merchant
       return record.save()
     })
-    .then(() => res.redirect(`/`))
+    .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
 
@@ -126,7 +125,7 @@ router.delete('/:id', (req, res) => {
 // 篩選分錄的功能
 router.get('/:selection', async (req, res) => {
   // 網址上所顯示：取得使用者選取的月份與分類
-  let category = req.query.category
+  const category = req.query.category
   const month = Number(req.query.month)
 
   // 取得category icon
