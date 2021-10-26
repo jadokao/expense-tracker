@@ -16,29 +16,6 @@ const SEED_USER = {
 }
 
 db.once('open', async () => {
-  // 取得各個category的mongodb id
-  let { home, transportation, entertainment, food, other } = ''
-  await Category.find().then(categories => {
-    categories.forEach(item => {
-      switch (item.name) {
-        case '家居物業':
-          home = item._id
-          break
-        case '交通出行':
-          transportation = item._id
-          break
-        case '休閒娛樂':
-          entertainment = item._id
-          break
-        case '餐飲食品':
-          food = item._id
-          break
-        default:
-          other = item._id
-      }
-    })
-  })
-
   // 建立使用者資料
   await bcrypt
     .genSalt(10)
@@ -56,37 +33,16 @@ db.once('open', async () => {
 
       await Promise.all(
         records.map(async record => {
-          // 把原本的文字改成mongodb id
-          switch (record.category) {
-            case '家居物業':
-              record.category = home
-              break
-            case '交通出行':
-              record.category = transportation
-              break
-            case '休閒娛樂':
-              record.category = entertainment
-              break
-            case '餐飲食品':
-              record.category = food
-              break
-            default:
-              record.category = other
-          }
+          // 找出該筆record所屬category的資料
+          const category = await Category.findOne({ name: record.category }).lean()
 
-          // 建立分錄資料
-          await Record.create({
-            id: record.id,
-            name: record.name,
-            date: record.date,
-            amount: record.amount,
-            category: record.category,
-            merchant: record.merchant,
-            userId
-          })
+          // 替換category id與添加user id
+          record.category = category._id
+          record['userId'] = userId
         })
       )
     })
+    .then(() => Record.insertMany(records))
     .then(() => {
       console.log('Records done')
       process.exit()
