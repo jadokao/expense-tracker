@@ -11,10 +11,7 @@ router.get('/', (req, res) => {
     .populate('category')
     .lean()
     .then(records => {
-      records.forEach(record => {
-        record['icon'] = record.category.icon
-        record['category'] = record.category
-      })
+      //const selection = ''
       res.render('index', { records })
     })
     .catch(error => console.error(error))

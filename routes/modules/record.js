@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { ObjectId } = require('mongodb')
 
 const Record = require('../../models/Record')
 const Category = require('../../models/category.js')
@@ -123,126 +124,37 @@ router.delete('/:id', (req, res) => {
 })
 
 // 篩選分錄的功能
-router.get('/:selection', async (req, res) => {
+router.get('/filter', async (req, res) => {
+  const filter = { userId: req.user._id }
   const selection = req.query.category
-  // 網址上所顯示：選取的分類
-  const category = req.query.category
-  // 網址上所顯示：選取的月份
-  const month = req.query.month === '月份' || req.query.month === '全部' ? req.query.month : Number(req.query.month)
 
-  if (category === '類別' && month === '月份') {
+  // 網址上所顯示：選取的分類
+  const category =
+    req.query.category === '全部' || req.query.category === '類別'
+      ? ''
+      : await Category.findOne({ name: req.query.category }).lean()
+
+  category === '' ? '' : (filter.category = ObjectId(category._id))
+  // 網址上所顯示：選取的月份
+  const month = req.query.month === '月份' || req.query.month === '全部' ? '' : Number(req.query.month)
+  // 如果都沒選
+  if (category === '' && month === '') {
     return res.redirect('/')
   }
 
-  // 取得category icon
-  await Category.find().lean().then(categories => {
-    categories.forEach(item => {
-      switch (item.name) {
-        case '家居物業':
-          homeIcon = item.icon
-          break
-        case '交通出行':
-          transportationIcon = item.icon
-          break
-        case '休閒娛樂':
-          entertainmentIcon = item.icon
-          break
-        case '餐飲食品':
-          foodIcon = item.icon
-          break
-        default:
-          otherIcon = item.icon
-      }
-    })
-  })
-  // 取得各個category的id
-  await Category.find().lean().then(categories => {
-    categories.forEach(item => {
-      switch (item.name) {
-        case '家居物業':
-          homeId = item._id.toString()
-          break
-        case '交通出行':
-          transportationId = item._id.toString()
-          break
-        case '休閒娛樂':
-          entertainmentId = item._id.toString()
-          break
-        case '餐飲食品':
-          foodId = item._id.toString()
-          break
-        default:
-          otherId = item._id.toString()
-      }
-    })
-  })
-
-  const userId = req.user._id
-
-  if (category === '類別' || category === '全部') {
-    return Record.find({ userId })
-      .lean()
-      .then(records => {
-        getIconByArray(records)
-
-        const filterRecords = records.filter(record => record.date.getMonth() === month)
-
-        res.render('index', {
-          records: filterRecords,
-          selection,
-          month,
-          category,
-          homeId,
-          transportationId,
-          entertainmentId,
-          foodId,
-          otherId
-        })
-      })
-      .catch(error => console.error(error))
-  }
-
-  return Record.find({ category, userId })
+  return Record.find(filter)
+    .populate('category')
     .lean()
     .then(records => {
-      getIconByArray(records)
-
-      let filterRecords = records.filter(record => record.date.getMonth() === month)
+      const filterRecords = month ? records.filter(record => record.date.getMonth() === month) : records
 
       res.render('index', {
         records: filterRecords,
         selection,
-        month,
-        category,
-        homeId,
-        transportationId,
-        entertainmentId,
-        foodId,
-        otherId
+        month
       })
     })
     .catch(error => console.error(error))
 })
-
-function getIconByArray (array) {
-  array.forEach(item => {
-    switch (item.category.toString()) {
-      case homeId.toString():
-        item['icon'] = homeIcon
-        break
-      case transportationId.toString():
-        item['icon'] = transportationIcon
-        break
-      case entertainmentId.toString():
-        item['icon'] = entertainmentIcon
-        break
-      case foodId.toString():
-        item['icon'] = foodIcon
-        break
-      default:
-        item['icon'] = otherIcon
-    }
-  })
-}
 
 module.exports = router

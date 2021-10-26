@@ -19,11 +19,12 @@
     </select>
     <select class="selectpicker" id="category" name="category">
       <option value="類別" selected>類別</option>
-      <option value="全部" {{#if (eq selection '全部' )}}selected{{/if}}>全部</option>
-      {{#each records}}
-        <option value="{{this.category._id}}" {{#if (eq this.category homeId )}}selected{{/if}}>{{this.category.name}}
-        </option>
-      {{/each}}
+      <option value="全部" {{#if (eq selection '全部')}}selected{{/if}}>全部</option>
+      <option value="家居物業" {{#if (eq selection '家居物業')}}selected{{/if}}>家居物業</option>
+      <option value="交通出行" {{#if (eq selection '交通出行')}}selected{{/if}}>交通出行</option>
+      <option value="休閒娛樂" {{#if (eq selection '休閒娛樂')}}selected{{/if}}>休閒娛樂</option>
+      <option value="餐飲食品" {{#if (eq selection '餐飲食品')}}selected{{/if}}>餐飲食品</option>
+      <option value="其他" {{#if (eq selection '其他')}}selected{{/if}}>其他</option>
     </select>
     <button type="submit" class="btn btn-outline-dark">搜尋</button>
   </form>
@@ -41,7 +42,7 @@
 {{#each records}}
   <ul class="list-group list-group-horizontal d-flex justify-content-center align-items-center">
     <li class="list-group-item border-0">
-      <i class="{{this.icon}}"></i>
+      <i class="{{this.category.icon}}"></i>
     </li>
     <li class="list-group-item d-flex border-0">
       <div>
