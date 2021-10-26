@@ -124,9 +124,15 @@ router.delete('/:id', (req, res) => {
 
 // 篩選分錄的功能
 router.get('/:selection', async (req, res) => {
-  // 網址上所顯示：取得使用者選取的月份與分類
+  const selection = req.query.category
+  // 網址上所顯示：選取的分類
   const category = req.query.category
-  const month = Number(req.query.month)
+  // 網址上所顯示：選取的月份
+  const month = req.query.month === '月份' || req.query.month === '全部' ? req.query.month : Number(req.query.month)
+
+  if (category === '類別' && month === '月份') {
+    return res.redirect('/')
+  }
 
   // 取得category icon
   await Category.find().lean().then(categories => {
@@ -173,15 +179,39 @@ router.get('/:selection', async (req, res) => {
 
   const userId = req.user._id
 
+  if (category === '類別' || category === '全部') {
+    return Record.find({ userId })
+      .lean()
+      .then(records => {
+        getIconByArray(records)
+
+        const filterRecords = records.filter(record => record.date.getMonth() === month)
+
+        res.render('index', {
+          records: filterRecords,
+          selection,
+          month,
+          category,
+          homeId,
+          transportationId,
+          entertainmentId,
+          foodId,
+          otherId
+        })
+      })
+      .catch(error => console.error(error))
+  }
+
   return Record.find({ category, userId })
     .lean()
     .then(records => {
       getIconByArray(records)
 
-      const filterRecords = records.filter(record => record.date.getMonth() === month)
+      let filterRecords = records.filter(record => record.date.getMonth() === month)
 
       res.render('index', {
         records: filterRecords,
+        selection,
         month,
         category,
         homeId,
